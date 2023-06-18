@@ -1,11 +1,10 @@
-package com.octanepvp.splityosis.menulib;
-
-import org.bukkit.plugin.java.JavaPlugin;
+package dev.splityosis.menulib;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class MenuLib implements Listener {
 
@@ -27,7 +26,7 @@ public class MenuLib implements Listener {
         Menu menu = (Menu) e.getClickedInventory().getHolder();
         MenuItem menuItem = menu.getItem(e.getSlot());
         if (menuItem == null) return;
-        menuItem.menuItemExecute.onClick(e, menu);
+        menuItem.getMenuItemExecuter().onClick(e, menu);
     }
 
     @EventHandler
