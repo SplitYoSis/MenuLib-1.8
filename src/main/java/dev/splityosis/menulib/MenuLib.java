@@ -26,7 +26,8 @@ public class MenuLib implements Listener {
         Menu menu = (Menu) e.getClickedInventory().getHolder();
         MenuItem menuItem = menu.getItem(e.getSlot());
         if (menuItem == null) return;
-        menuItem.getMenuItemExecuter().onClick(e, menu);
+        if (menuItem.getMenuItemExecuter() != null)
+            menuItem.getMenuItemExecuter().onClick(e, menu);
     }
 
     @EventHandler
