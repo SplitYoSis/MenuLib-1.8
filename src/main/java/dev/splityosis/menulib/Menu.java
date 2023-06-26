@@ -176,8 +176,10 @@ public class Menu implements InventoryHolder, Cloneable {
      * Updates the menu if changes were made.
      * @return The Menu instance (to allow continuous coding format).
      */
-    public Menu updateMenu(){
-        setPage(getCurrentPage());
+    public Menu refresh(){
+        currentItems = getPageItems(getCurrentPage());
+        for (int i = 0; i < getPageSize(); i++)
+            inventory.setItem(i, currentItems.get(i).getDisplayItem());
         return this;
     }
 
@@ -190,6 +192,20 @@ public class Menu implements InventoryHolder, Cloneable {
     public Menu setStaticItem(int slot, MenuItem menuItem){
         if (slot >= getPageSize()) return this;
         staticItems.put(slot, menuItem);
+        return this;
+    }
+
+    /**
+     * Sets a MenuItem without saving it into the Menu data, The item will be there until the page is refreshed.
+     * Note: Setting an item like this will override a listed item, meaning the listed item won't be shifted to
+     * the next available slot it will just be removed until the page is refreshed.
+     * @param slot The slot the MenuItem will be set in.
+     * @param menuItem The MenuItem that will be set.
+     * @return The Menu instance (to allow continuous coding format).
+     */
+    public Menu setTemporaryItem(int slot, MenuItem menuItem){
+        currentItems.put(slot, menuItem);
+        inventory.setItem(slot, menuItem.getDisplayItem());
         return this;
     }
 
