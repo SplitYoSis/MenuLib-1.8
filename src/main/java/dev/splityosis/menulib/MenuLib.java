@@ -4,6 +4,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -28,6 +29,7 @@ public class MenuLib implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent e){
         if (!goodActions.contains(e.getAction())) return;
+        if (e.getClick() == ClickType.DOUBLE_CLICK && e.isShiftClick()) return;
         if (e.getClickedInventory() == null) return;
         if (e.getClickedInventory().getHolder() == null) return;
         if (!(e.getInventory().getHolder() instanceof Menu)) return;
