@@ -31,18 +31,18 @@ public class MenuItem implements Cloneable{
      *
      * @param displayItem The ItemStack that represents the MenuItem.
      * @param sound The sound that will play when the MenuItem is clicked.
-     * @param soundPitch The pitch that the sound will be played at.
      * @param soundVolume The volume that the sound will be played at.
+     * @param soundPitch The pitch that the sound will be played at.
      */
-    public MenuItem(ItemStack displayItem, Sound sound, float soundPitch, float soundVolume) {
+    public MenuItem(ItemStack displayItem, Sound sound, float soundVolume, float soundPitch) {
         this.displayItem = displayItem;
         this.sound = sound;
-        this.soundPitch = soundPitch;
         this.soundVolume = soundVolume;
+        this.soundPitch = soundPitch;
     }
 
     /**
-     * Sets the chunk of code that will be ran when the item is clicked.
+     * Sets the chunk of code that will be run when the item is clicked.
      * @param menuItemExecute An interface that holds the onClick(InventoryClickEvent, Menu) method.
      * @return The MenuItem instance (to allow continuous coding format).
      */

@@ -2,6 +2,7 @@ package dev.splityosis.menulib;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -196,7 +197,7 @@ public class Menu implements InventoryHolder, Cloneable {
     }
 
     /**
-     * Sets a MenuItem without saving it into the Menu data, The item will be there until the page is refreshed.
+     * Sets a MenuItem in the current page without saving it into the Menu data, The item will be there until the page is refreshed.
      * Note: Setting an item like this will override a listed item, meaning the listed item won't be shifted to
      * the next available slot it will just be removed until the page is refreshed.
      * @param slot The slot the MenuItem will be set in.
@@ -205,7 +206,8 @@ public class Menu implements InventoryHolder, Cloneable {
      */
     public Menu setTemporaryItem(int slot, MenuItem menuItem){
         currentItems.put(slot, menuItem);
-        inventory.setItem(slot, menuItem.getDisplayItem());
+        if (inventory != null)
+            inventory.setItem(slot, menuItem.getDisplayItem());
         return this;
     }
 
@@ -217,6 +219,39 @@ public class Menu implements InventoryHolder, Cloneable {
      */
     public Menu setNextPageButton(int slot, ItemStack itemStack){
         setStaticItem(slot, new MenuItem(itemStack).executes((event, menu) -> {
+            if (menu.getCurrentPage() + 1 == menu.getPagesAmount()) return;
+            menu.setPage(menu.getCurrentPage() + 1);
+        }));
+        return this;
+    }
+
+    /**
+     * Sets a next page button.
+     * @param slot The static slot the button will go in.
+     * @param itemStack The ItemStack that the button will be.
+     * @param sound The sound that will be played when the button is clicked.
+     * @return The Menu instance (to allow continuous coding format).
+     */
+
+    public Menu setNextPageButton(int slot, ItemStack itemStack, Sound sound){
+        setStaticItem(slot, new MenuItem(itemStack, sound).executes((event, menu) -> {
+            if (menu.getCurrentPage() + 1 == menu.getPagesAmount()) return;
+            menu.setPage(menu.getCurrentPage() + 1);
+        }));
+        return this;
+    }
+
+    /**
+     * Sets a next page button.
+     * @param slot The static slot the button will go in.
+     * @param itemStack The ItemStack that the button will be.
+     * @param sound The sound that will be played when the button is clicked.
+     * @param soundVolume The soundVolume that the sound will be played at.
+     * @param soundPitch The soundPitch that the sound will be played at.
+     * @return The Menu instance (to allow continuous coding format).
+     */
+    public Menu setNextPageButton(int slot, ItemStack itemStack, Sound sound, float soundVolume, float soundPitch){
+        setStaticItem(slot, new MenuItem(itemStack, sound, soundVolume, soundPitch).executes((event, menu) -> {
             if (menu.getCurrentPage() + 1 == menu.getPagesAmount()) return;
             menu.setPage(menu.getCurrentPage() + 1);
         }));
@@ -238,6 +273,38 @@ public class Menu implements InventoryHolder, Cloneable {
     }
 
     /**
+     * Sets a previous page button.
+     * @param slot The static slot the button will go in.
+     * @param itemStack The ItemStack that the button will be.
+     * @param sound The sound that will be played when the button is clicked.
+     * @return The Menu instance (to allow continuous coding format).
+     */
+    public Menu setPreviousPageButton(int slot, ItemStack itemStack, Sound sound){
+        setStaticItem(slot, new MenuItem(itemStack, sound).executes((event, menu) -> {
+            if (menu.getCurrentPage() == 0) return;
+            menu.setPage(menu.getCurrentPage() - 1);
+        }));
+        return this;
+    }
+
+    /**
+     * Sets a previous page button.
+     * @param slot The static slot the button will go in.
+     * @param itemStack The ItemStack that the button will be.
+     * @param sound The sound that will be played when the button is clicked.
+     * @param soundVolume The soundVolume that the sound will be played at.
+     * @param soundPitch The soundPitch that the sound will be played at.
+     * @return The Menu instance (to allow continuous coding format).
+     */
+    public Menu setPreviousPageButton(int slot, ItemStack itemStack, Sound sound, float soundVolume, float soundPitch){
+        setStaticItem(slot, new MenuItem(itemStack, sound, soundVolume, soundPitch).executes((event, menu) -> {
+            if (menu.getCurrentPage() == 0) return;
+            menu.setPage(menu.getCurrentPage() - 1);
+        }));
+        return this;
+    }
+
+    /**
      * Sets a back button that will open the parent Menu.
      * @param slot The static slot the button will go in.
      * @param itemStack The ItemStack that the button will be.
@@ -245,6 +312,38 @@ public class Menu implements InventoryHolder, Cloneable {
      */
     public Menu setBackButton(int slot, ItemStack itemStack){
         setStaticItem(slot, new MenuItem(itemStack).executes((event, menu) -> {
+            if (parent != null)
+                parent.open((Player) event.getWhoClicked());
+        }));
+        return this;
+    }
+
+    /**
+     * Sets a back button that will open the parent Menu.
+     * @param slot The static slot the button will go in.
+     * @param itemStack The ItemStack that the button will be.
+     * @param sound The sound that will be played when the button is clicked.
+     * @return The Menu instance (to allow continuous coding format).
+     */
+    public Menu setBackButton(int slot, ItemStack itemStack, Sound sound){
+        setStaticItem(slot, new MenuItem(itemStack, sound).executes((event, menu) -> {
+            if (parent != null)
+                parent.open((Player) event.getWhoClicked());
+        }));
+        return this;
+    }
+
+    /**
+     * Sets a back button that will open the parent Menu.
+     * @param slot The static slot the button will go in.
+     * @param itemStack The ItemStack that the button will be.
+     * @param sound The sound that will be played when the button is clicked.
+     * @param soundVolume The soundVolume that the sound will be played at.
+     * @param soundPitch The soundPitch that the sound will be played at.
+     * @return The Menu instance (to allow continuous coding format).
+     */
+    public Menu setBackButton(int slot, ItemStack itemStack, Sound sound, float soundVolume, float soundPitch){
+        setStaticItem(slot, new MenuItem(itemStack, sound, soundVolume, soundPitch).executes((event, menu) -> {
             if (parent != null)
                 parent.open((Player) event.getWhoClicked());
         }));
