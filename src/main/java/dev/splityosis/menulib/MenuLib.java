@@ -1,5 +1,7 @@
 package dev.splityosis.menulib;
 
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -26,6 +28,9 @@ public class MenuLib implements Listener {
         Menu menu = (Menu) e.getClickedInventory().getHolder();
         MenuItem menuItem = menu.getItem(e.getSlot());
         if (menuItem == null) return;
+        Sound sound = menuItem.getSound();
+        if (sound != null)
+            ((Player)e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), sound, menuItem.getSoundVolume(), menuItem.getSoundPitch());
         if (menuItem.getMenuItemExecuter() != null)
             menuItem.getMenuItemExecuter().onClick(e, menu);
     }

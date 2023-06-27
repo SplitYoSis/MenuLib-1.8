@@ -26,7 +26,7 @@ public class Menu implements InventoryHolder, Cloneable {
     private List<MenuItem> listedItems = new ArrayList<>();
 
     private int currentPage = 0;
-    private Map<Integer, MenuItem> currentItems;
+    private Map<Integer, MenuItem> currentItems = new HashMap<>();
 
     public Menu(int pageSize) {
         this.pageSize = pageSize;
