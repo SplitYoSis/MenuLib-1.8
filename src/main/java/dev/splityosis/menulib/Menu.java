@@ -179,8 +179,13 @@ public class Menu implements InventoryHolder, Cloneable {
      */
     public Menu refresh(){
         currentItems = getPageItems(getCurrentPage());
-        for (int i = 0; i < getPageSize(); i++)
-            inventory.setItem(i, currentItems.get(i).getDisplayItem());
+        for (int i = 0; i < getPageSize(); i++) {
+            MenuItem menuItem = currentItems.get(i);
+            if (menuItem == null)
+                inventory.setItem(i, null);
+            else
+                inventory.setItem(i, menuItem.getDisplayItem());
+        }
         return this;
     }
 
