@@ -28,13 +28,13 @@ public class MenuLib implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e){
-        if (!goodActions.contains(e.getAction())) return;
-        if (e.getClick() == ClickType.DOUBLE_CLICK && e.isShiftClick()) return;
         if (e.getClickedInventory() == null) return;
         if (e.getClickedInventory().getHolder() == null) return;
         if (!(e.getInventory().getHolder() instanceof Menu)) return;
         e.setCancelled(true);
         if (!(e.getClickedInventory().getHolder() instanceof Menu)) return;
+        if (!goodActions.contains(e.getAction())) return;
+        if (!(e.getClick() == ClickType.LEFT || e.getClick() == ClickType.RIGHT || e.getClick() == ClickType.SHIFT_LEFT || e.getClick() == ClickType.SHIFT_RIGHT)) return;
         Menu menu = (Menu) e.getClickedInventory().getHolder();
         MenuItem menuItem = menu.getItem(e.getSlot());
         if (menuItem == null) return;

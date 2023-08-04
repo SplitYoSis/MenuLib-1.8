@@ -367,7 +367,46 @@ public class Menu implements InventoryHolder, Cloneable {
     }
 
     /**
-     *
+     * Clears ALL the static items.
+     * @return The Menu instance (to allow continuous coding format).
+     */
+    public Menu clearStaticItems(){
+        staticItems.clear();
+        return this;
+    }
+
+    /**
+     * Clears ALL the listed items.
+     * @return The Menu instance (to allow continuous coding format).
+     */
+    public Menu clearListedItems(){
+        listedItems.clear();
+        return this;
+    }
+
+    /**
+     * Clears the items at given page (non-listed items and non-static items).
+     * @param page - The page that's items will be cleared
+     * @return The Menu instance (to allow continuous coding format).
+     */
+    public Menu clearItems(int page){
+        Map<Integer, MenuItem> map = pagesList.get(page);
+        if (map != null)
+            map.clear();
+        return this;
+    }
+
+    /**
+     * Clears ALL the items on ALL the pages (non-listed items and non-static items).
+     * @return The Menu instance (to allow continuous coding format).
+     */
+    public Menu clearItems(){
+        pagesList.clear();
+        return this;
+    }
+
+
+    /**
      * @return The amount of slots per page.
      */
     public int getPageSize() {
