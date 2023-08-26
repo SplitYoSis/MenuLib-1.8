@@ -553,6 +553,8 @@ public class Menu implements InventoryHolder, Cloneable {
     }
 
     private static String colorize(String str) {
+        if (str == null)
+            return str;
         return ChatColor.translateAlternateColorCodes('&', str);
     }
 
