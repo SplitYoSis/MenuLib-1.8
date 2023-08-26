@@ -552,15 +552,8 @@ public class Menu implements InventoryHolder, Cloneable {
         }
     }
 
-    private static final Pattern HEX_PATTERN = Pattern.compile("&(#\\w{6})");
     private static String colorize(String str) {
-        Matcher matcher = HEX_PATTERN.matcher(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', str));
-        StringBuffer buffer = new StringBuffer();
-
-        while (matcher.find())
-            matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group(1)).toString());
-
-        return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+        return ChatColor.translateAlternateColorCodes('&', str);
     }
 
     private static List<String> colorize(List<String> lst){
